@@ -1,0 +1,81 @@
+AdventureWorks2022 data base
+https://learn.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-ver16&tabs=ssms
+
+
+Select * from AdventureWorks2022.Purchasing.vVendorWithContacts
+
+--list of employees who work at Advanced Bicycles
+
+  select Name, ContactType, FirstName, LastName, PhoneNumber, EmailAddress
+  from AdventureWorks2022.Purchasing.vVendorWithContacts 
+  where Name = 'Advanced Bicycles'
+
+
+  --number of vendors with contacts from each business
+
+  Select Name, Count(*) from AdventureWorks2022.Purchasing.vVendorWithContacts
+  group by Name
+
+
+
+select * from AdventureWorks2022.HumanResources.vEmployee
+
+  --how many people work in each city
+
+  select count(FirstName) as Employees, City
+  from AdventureWorks2022.HumanResources.vEmployee
+  group by city
+
+
+-- how many people work in each job in the city Redmond
+
+   select count(FirstName) as Employees, City, Jobtitle
+  from AdventureWorks2022.HumanResources.vEmployee
+  where City like 'Redmond'
+  group by City, Jobtitle
+
+
+
+select * from AdventureWorks2022.Purchasing.PurchaseOrderDetail
+
+  -- Orders greater then 500
+
+  select PurchaseOrderID,
+  SUM(UnitPrice) as orders
+  from AdventureWorks2022.Purchasing.PurchaseOrderDetail
+  group by PurchaseOrderID
+  having SUM(UnitPrice) > 500
+
+
+
+ select * from AdventureWorks2022.Sales.SalesPerson
+ 
+ Select count(BusinessEntityID) as IDs
+ from AdventureWorks2022.Sales.SalesPerson
+
+ 
+--what is the max sales this year with buissness id
+
+  select BusinessEntityID,
+  SalesYTD  
+  from AdventureWorks2022.Sales.SalesPerson
+  where SalesYTD =
+  (select max(SalesYTD) from AdventureWorks2022.Sales.SalesPerson)
+
+
+
+  -- what is the avg sales last year of each territory name
+
+  select name, AVG(AdventureWorks2022.Sales.SalesPerson.SalesLastYear) as avg_sales_last_year
+  from AdventureWorks2022.Sales.SalesPerson
+  join Adventureworks2022.Sales.SalesTerritory
+  on AdventureWorks2022.Sales.SalesPerson.TerritoryID = Adventureworks2022.Sales.SalesTerritory.TerritoryID
+  group by name
+
+
+  select * from adventureWorks2022.Production.VProductAndDescription
+
+  --discription that mentions comfort or performance
+
+  select * from AdventureWorks2022.Production.vProductAndDescription
+  where Description like '%comfort%' or Description like 'performance'
