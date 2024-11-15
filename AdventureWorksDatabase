@@ -79,3 +79,17 @@ select * from AdventureWorks2022.Purchasing.PurchaseOrderDetail
 
   select * from AdventureWorks2022.Production.vProductAndDescription
   where Description like '%comfort%' or Description like 'performance'
+
+  --list all product catergories with total products in each catergory
+  --find quanity and name 
+  SELECT ProductID, Quantity 
+  FROM AdventureWorks2022.Production.ProductInventory
+  
+  SELECT Name, ProductID
+  FROM AdventureWorks2022.Production.Product
+
+  -- combined and find the quality of each item
+  SELECT Name, SUM(Quantity) as Total_Quantity
+  FROM AdventureWorks2022.Production.Product w
+  LEFT JOIN AdventureWorks2022.Production.ProductInventory x on w.ProductID = x.ProductID
+  GROUP BY Name
