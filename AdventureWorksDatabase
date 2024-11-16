@@ -93,3 +93,10 @@ select * from AdventureWorks2022.Purchasing.PurchaseOrderDetail
   FROM AdventureWorks2022.Production.Product w
   LEFT JOIN AdventureWorks2022.Production.ProductInventory x on w.ProductID = x.ProductID
   GROUP BY Name
+
+  --Find Employees by name, Jobtitle and department
+  select CONCAT(FirstName,' ', LastName) AS Name, JobTitle, Name as Department from AdventureWorks2022.HumanResources.Employee y
+  left join AdventureWorks2022.HumanResources.EmployeeDepartmentHistory x on y.BusinessEntityID = x.BusinessEntityID 
+  left join AdventureWorks2022.HumanResources.Department z on z.DepartmentID = x.DepartmentID 
+  left join AdventureWorks2022.Person.Person w on x.BusinessEntityID = w.BusinessEntityID 
+  order by department asc
