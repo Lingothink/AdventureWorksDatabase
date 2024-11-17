@@ -1,0 +1,14 @@
+  --Top 5 products each territory
+
+  WITH TotalSales as (
+  select row_number() over (Partition by z.name order by SUM(OrderQty)*avg(UnitPrice) desc) as TotalSale,  SUM(OrderQty)*avg(UnitPrice) as price,
+  z.Name, w.Name as products
+  from AdventureWorks2022.Sales.SalesOrderDetail x
+  left join AdventureWorks2022.Sales.SalesOrderHeader y on  x.SalesOrderID = y.SalesOrderID
+  left join AdventureWorks2022.Sales.SalesTerritory z on z.TerritoryID = y.TerritoryID
+  left join AdventureWorks2022.Production.Product w on x.ProductID = w.ProductID
+  group by w.Name, z.Name
+  )
+  select * from TotalSales x
+  where TotalSale <= 5
+  order by price desc
